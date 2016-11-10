@@ -1,0 +1,68 @@
+<template>
+  <require from="bootstrap/css/bootstrap.css"></require>
+  <require from="./app.css"></require>
+  <div class="container">
+  <table class="table table-striped" aurelia-table="data.bind: list; display-data.bind: $displayData; current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems;">
+    <thead>
+      <tr>
+        <th aut-sort="key: name">Name</th>
+        <th>Alpha Code 2</th>
+        <th>Alpha Code 3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--<template repeat.for="country of $displayData">-->
+      <!--<tr aut-select="row.bind: country; mode: multiple; selected-class: info" click.delegate="clicked(country)" select.delegate="rowSelected($event, country)" data-toggle="collapse" data-target.bind="'#test' + country.alpha3_code" class="accordion-toggle">-->
+        <!--<td>${country.name}</td>-->
+        <!--<td>${country.alpha2_code}</td>-->
+        <!--<td>${country.alpha3_code}</td>-->
+      <!--</tr>-->
+      <!--<tr>-->
+        <!--<td colspan="3" class="hiddenRow">-->
+          <!--<div id.bind="'test' + country.alpha3_code" class="accordian-body collapse">-->
+           <!--<compose if.bind="country.isLoaded" view-model="appDetail" view.bind="appDetail.html" model.bind="{alpha3_code: country.alpha3_code, name: country.name}"></compose>-->
+          <!--</div>-->
+        <!--</td>-->
+      <!--</tr>-->
+      <!--</template>-->
+
+      <template repeat.for="country of $displayData">
+        <tr aut-select="row.bind: country; mode: multiple; selected-class: info" click.delegate="clicked(country)" select.delegate="rowSelected($event, country)">
+          <td>${country.name}</td>
+          <td>${country.alpha2_code}</td>
+          <td>${country.alpha3_code}</td>
+        </tr>
+        <tr>
+          <td colspan="3" class="hiddenRow">
+            <div id.bind="'test' + country.alpha3_code">
+              <compose if.bind="country.$isSelected" view-model="appDetail" view.bind="appDetail.html" model.bind="{alpha3_code: country.alpha3_code, name: country.name}"></compose>
+            </div>
+          </td>
+        </tr>
+      </template>
+
+
+    </tbody>
+  </table>
+    <div class="row">
+      <div class="col-md-9">
+        <aut-pagination current-page.bind="currentPage" page-size.bind="pageSize" total-items.bind="totalItems"
+                        pagination-size.bind="5" boundary-links.bind="true"> </aut-pagination>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-inline">
+          <div class="form-group pull-right">
+            <label for="pageSize">Page Size: </label>
+            <select value.bind="pageSize" id="pageSize" class="form-control">
+              <option model.bind="5">5</option>
+              <option model.bind="10">10</option>
+              <option model.bind="20">20</option>
+              <option model.bind="50">50</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
